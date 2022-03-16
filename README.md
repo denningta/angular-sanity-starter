@@ -1,10 +1,7 @@
-# Angular Sanity starter project
+# Angular-Sanity starter project
   This is a starter project with Angular, Sanity, and Tailwindcss meant to get Headless CMS websites up and running quickly.  
   
   Sanity has been modified from its default configuration to a more general and usable format.
-
-
-
 
 # Getting Started
 
@@ -14,9 +11,9 @@
   Run `npm install` in the `sanity` directory to install Sanity dependencies.
 
 ## 2. Set up Sanity
-  Log in to Sanity and create a new project.
+  Sign up or Log in to [Sanity](https://www.sanity.io/) and create a new project.
 
-  Copy the project ID and paste into `sanity/sanity.json`.
+  Add the Sanity Project ID to `projectId` in `sanity/sanity.json`.
 
   ```json
     "api": {
@@ -25,15 +22,36 @@
     },
   ```
 
+  Add the Sanity Project ID to `projectId` in `src/app/services/queries.groq.ts`
+  ```ts
+  export const client = sanityClient({
+    projectId: 'YOUR_PROJECT_ID',
+    dataset: 'production',
+    apiVersion: '2021-03-25',
+    useCdn: true,
+  });
+  ```
+
+  Add a CORS origin for the Angular development server to your Sanity project in the [API tab](https://www.sanity.io/manage/personal/project/b74i10k9/api).  Leave the "Allow credentials" checkbox unchecked.
+
   Run `sanity start` inside the sanity folder to start the sanity development server.
 
-  See the [Sanity Documentation](https://www.sanity.io/docs/getting-started-with-sanity-cli) for more information.
-
   Navigate to `http://localhost:3333` for the Sanity UI.
+
+  See the [Sanity Documentation](https://www.sanity.io/docs/getting-started-with-sanity-cli) for more information.
 
 ## 3. Angular Development server
 
 Run `ng serve` from the root directory for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+If there are issues with styling it is likely due to tailwindcss importing issues.  Check the `tailwind.config.js` for the directories it is watching:
+
+```js
+module.exports = {
+  content: [
+    "src/**/*.{html,ts}",
+  ],
+```
 
 
 ## Type Synching from Sanity to Angular
